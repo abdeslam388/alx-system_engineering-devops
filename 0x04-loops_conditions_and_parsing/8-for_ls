@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# This script displays the content of the current directory in a list format
+
+# Use a for loop to iterate through the files and directories in the current directory
+for item in *; do
+    # Check if it's a regular file (not a directory) and not hidden (doesn't start with a dot)
+    if [ -f "$item" ] && [[ "$item" != .* ]]; then
+        # Use cut to extract the part of the name after the first dash
+        name=$(echo "$item" | cut -d '-' -f 2-)
+        echo "$name"
+    fi
+done
+
