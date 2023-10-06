@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+# Use netstat to display listening ports and their associated programs
+netstat -tuln | grep -E '^(tcp|udp)' | awk '{print $1, $4, $7}' | while read protocol local remote; do
+    # Extract the PID from the program name
+    pid=$(echo "$remote" | awk -F'/' '{print $1}')
+    program=$(echo "$remote" | awk -F'/' '{print $2}')
+    
+    # Resolve program name from PID
+    program_name=$(ps -p "$pid" -o comm= 2>/dev/null)
+    
+    # Display the information
+    echo "$protocol $local $program_name"
+done
